@@ -331,8 +331,8 @@ footer {
     float: right;
     position: absolute;
     left: auto;
-    right: auto;
-    left: -140px;
+    right: -30px;
+    left: auto;
     top: 59px;
 }
 .right-div{
