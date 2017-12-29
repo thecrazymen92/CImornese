@@ -844,10 +844,10 @@ class CI_Loader {
 			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
 			//echo $_ci_view.":".PATHINFO_EXTENSION;
 			foreach ($this->_ci_view_paths as $_ci_view_file => $cascade)
-			{echo $_ci_view_file.$_ci_file.":".file_exists($_ci_view_file.$_ci_file)."<br>";
+			{//echo $_ci_view_file.$_ci_file.":".file_exists($_ci_view_file.$_ci_file)."<br>";
 				if (file_exists($_ci_view_file.$_ci_file))
 				{
-					$_ci_path = $_ci_view_file.$_ci_file;echo $_ci_path."<br>";
+					$_ci_path = $_ci_view_file.$_ci_file;//echo $_ci_path."<br>";
 					$file_exists = TRUE;
 					break;
 				}

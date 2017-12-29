@@ -3,8 +3,8 @@
     <h1>Login</h1>
     <fieldset>
         <form action="<?php echo base_url();?>login/loginparams/" method="post">
-            <input id="usuario" name="usuario" type="email" required placeholder="<?php print $user; ?>">
-            <input id="clave" name="clave" type="password" required placeholder="<?php print $password; ?>">
+            <input value="yanpool.valencia@mornese.pe" id="usuario" name="usuario" type="email" required placeholder="<?php print $user; ?>">
+            <input value="12345678" id="clave" name="clave" type="password" required placeholder="<?php print $password; ?>">
             <input type="submit" value="Login">
         </form>
     </fieldset>

@@ -341,6 +341,7 @@ footer {
 }
 .header{
     background: #E52422 !important;
+    border: 0;
 }
 .chart-box{
     width: 300px;
