@@ -53,6 +53,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['product'] = 'product/index';
 //$route['autologin'] = 'login/autologin';
 $route['login'] = 'login/index';
+$route['editar'] = 'login/editar';
+$route['graficos'] = 'login/configurar';
+$route['lista_incidencias/(:any)/(:any)/(:any)'] = 'login/lista_incidencias/$1/$2/$3';
+$route['incidencias_area/(:any)/(:any)/(:any)'] = 'login/incidencias_area/$1/$2/$3';
+$route['incidencias_motivos/(:any)/(:any)/(:any)'] = 'login/motivos_incidencias/$1/$2/$3';
+$route['incidencia_area_mes/(:any)/(:any)/(:any)'] = 'login/incidencia_area_mes/$1/$2/$3';
+
 $route['loginparams'] = 'login/loginparams';
 $route['dashboard'] = 'login/dashboard';
 $route['logout'] = 'login/logout';

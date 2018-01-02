@@ -97,8 +97,5 @@
     <div id="allcontent">
 		<?php if(isset($content)){ print $content; } ?>
 	</div>
-            <!--
-            <?= $this->content ?>
-        	-->
 </body>
 </html>

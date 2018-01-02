@@ -1,31 +1,35 @@
 <?php 
-  if(isset($usuario)){
-    //var_dump($usuario);
+  if(isset($lista_incidencias)){
+    var_dump($usuario);
   }
 ?>
     <div class="content-wrapper graficos">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="col-md-3">
-                        <h3>Incidencia de headsets</h3>
+                    <div class="col-md-3 chart-col">
+                        <h3>Incidencia de headsets</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart1" class="chart-box"></div>
                     </div>
-                    <div class="col-md-3">
-                        <h3>Incidencias por Area</h3>
+                    <div class="col-md-3 chart-col">
+                        <h3>Incidencias por Area</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart2" class="chart-box"></div>
                     </div>
-                    <div class="col-md-3">
-                        <h3>Motivos de incidencias</h3>
+                    <div class="col-md-3 chart-col">
+                        <h3>Motivos de incidencias</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart3" class="chart-box"></div>
                     </div>
-                    <div class="col-md-3">
-                        <h3>Incidencia x area x mes</h3>
+                    <div class="col-md-3 chart-col">
+                        <h3>Incidencia x area x mes</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart4" class="chart-box"></div>
                     </div>
                 </div>
 
             </div>
+
+<?php 
+  if(isset($lista_incidencias)){
+?>
 
             <div class="row">
                 <div class="col-md-12">
@@ -33,80 +37,42 @@
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Marca</th>
                                             <th>Modelo</th>
-                                            <th>Campaña</th>
+                                            <!--<th>Campaña</th>-->
                                             <th>Posición</th>
-                                            <th>Fecha </th>
                                             <th>Motivo</th>
+                                            <th>Fecha </th>
                                             <th>Ticket</th>
-                                            <th>botones</th>
+                                            <th>Opciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
-                                        <tr>
-                                            <td># 2501</td>
-                                            <td>01/22/2015 </td>
-                                            <td>
-                                                <label class="label label-info">300 USD </label>
-                                            </td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/25/2015</td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/25/2015</td>
-                                             <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
+                                      <?php 
+                                      while ($una_incidencia=$lista_incidencias->unbuffered_row()){
+                                        
+                                      ?>
+                                        <tr incidencia-id="<?php $una_incidencia->id_incidencia ?>">
+                                        <td><?php echo $una_incidencia->modelo; ?></td>
+                                        <td><?php echo $una_incidencia->posicion; ?></td>
+                                        <td><?php echo $una_incidencia->descripcion; ?></td>
+                                        <td><?php echo $una_incidencia->fecha; ?></td>
+                                        <td><?php echo $una_incidencia->ticket; ?></td>
+                                        <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
                                         </tr>
-                                        <tr>
-                                            <td># 15091</td>
-                                            <td>12/12/2014 </td>
-                                            <td>
-                                                <label class="label label-danger">7000 USD </label>
-                                            </td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/25/2015</td>
-                                            <td>
-                                                <label class="label label-warning">Shipped</label></td>
-                                            <td>N/A</td>
-                                             <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
-                                        </tr>
-                                        <tr>
-                                            <td># 11291</td>
-                                            <td>12/03/2014 </td>
-                                            <td>
-                                                <label class="label label-warning">7000 USD </label>
-                                            </td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/25/2015</td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/23/2015</td>
-                                             <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
-                                        </tr>
-                                        <tr>
-                                            <td># 1808</td>
-                                            <td>11/10/2014 </td>
-                                            <td>
-                                                <label class="label label-success">2000 USD </label>
-                                            </td>
-                                            <td>
-                                                <label class="label label-success">Delivered</label></td>
-                                            <td>01/25/2015</td>
-                                            <td>
-                                                <label class="label label-info">Returned</label></td>
-                                            <td>N/A</td>
-                                             <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
-                                        </tr>
+
+                                      <?php 
+                                      }
+                                      ?>
                                     </tbody>
                                 </table>
                             </div>
                 </div>
 
             </div>
+
+            <?php 
+  }
+?>
         </div>
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
@@ -119,235 +85,255 @@
         </div>
     </footer>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load("current", {packages:['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ["Element", "Density", { role: "style" } ],
-        ["Copper", 8.94, "#b87333"],
-        ["Silver", 10.49, "silver"],
-        ["Gold", 19.30, "gold"],
-        ["Platinum", 21.45, "color: #e5e4e2"]
-      ]);
+<script type="text/javascript" src="/login/assets/js/datepick.js"></script>
 
-      var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
 
-      var options = {
-//        title: "Density of Precious Metals, in g/cm^3",
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.ColumnChart(document.getElementById("chart1"));
-      chart.draw(view, options);
+<style>/* popupform */
 
-        var data2 = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
-//        var options = {title: 'My Daily Activities'};
-
-        var chart2 = new google.visualization.PieChart(document.getElementById('chart2'));
-
-        chart2.draw(data2, options);
-
-        var data3 = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
-        var options = {
-//          title: 'My Daily Activities',
-          pieHole: 0.4,
-        };
-
-        var chart3 = new google.visualization.PieChart(document.getElementById('chart3'));
-        chart3.draw(data3, options);
-
-        var data4 = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2013',  1000,      400],
-          ['2014',  1170,      460],
-          ['2015',  660,       1120],
-          ['2016',  1030,      540]
-        ]);
-
-        var options = {
-//          title: 'Company Performance',
-          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0}
-        };
-
-        var chart4 = new google.visualization.AreaChart(document.getElementById('chart4'));
-        chart4.draw(data4, options);
+  #popup-form {
+    overflow-y: scroll;
   }
 
-  </script>
+  #popup-form::-webkit-scrollbar {
+      display: none;
+  }
+  #popup-form .head {
+      text-align:  center;
+      color:  #fff;
+      background: #E52422;
+  }
 
-  <div id="popup-form" style="display: none;">
-    <div class="col-md-12 nopadding">
-    <div class="col-md-12 head">
-        <h2 class="col-md-12">Edit/Register(ticket)</h2>
-    </div>
-    <div class="col-md-12 body">
-    
+  .nopadding {
+      padding: 0;
+  }
 
+  div#popup-form {
+      width: 80vw;
+      height: 80vh;
+      top: 10vh;
+      left: 10vw;
+      position: fixed;
+      background: #101010;
+      border-radius: 20px;
+      overflow:  hidden;
+      box-shadow: 0px 0px 1vw 0vw #ffffff50;
+  }
 
-<div class="col-md-6">
-    
-        <label for="input1" class="col-md-4">Dispositivo</label>
-        <select for="input1" class="col-md-8">
-            <option value="value1">MORNESE 1391</option>
-            <option value="value2">MORNESE 1500</option>
+  #popup-form .head {
+      /* border-radius: 20px; */
+  }
 
+  #popup-form .head h2 {
+      text-decoration:  underline;
+      margin: 15px;
+  }
 
-        </select>
-    </div>
+  .col-md-12.body {}
 
-<div class="col-md-6">
-    
-        <label for="input2" class="col-md-4">Modelo</label>
-        <input value="326" for="input2" class="col-md-8" disabled="">
-    </div><div class="col-md-6">
-    
-        <label for="input3" class="col-md-4">Marca</label>
-        <input value="Plantronics" for="input3" class="col-md-8" disabled="">
-    </div>
+  #popup-form .body {
+      padding: 3% 3% 0% 3%;
+  }
 
-<div class="col-md-6">
-    
-        <label for="input4" class="col-md-4">Posicion</label>
-        <select for="input4" class="col-md-8">
-            <option value="value1">Ocoña1 - 012</option>
-            
-<option value="value2">Ocoña5 - 036</option>
-<option value="value2">camana5 - 036</option><option value="value2">camana6 - 036</option>
-        </select>
-    </div><div class="col-md-6">
-    
-        <label for="input5" class="col-md-4">Tipo incidencia</label>
-        <select for="input5" class="col-md-8">
-            <option value="value1">Fallo de uno de los auriculares</option>
-            <option value="value2">Auriculares entrecortados </option>
-<option value="value3">Roto</option>
-<option value="value4">Reemplazo por nuevo modelo</option>
-<option value="value5">Micrófono averiado</option>
-<option value="value6">Cable roto de auricular</option>
+  #popup-form .footer {
+      padding:  3% 3% 3% 3%;
+      display:  flex;
+      flex-direction: row-reverse;
+  }
 
+  #popup-form .footer * {
+      float:  right;
+      /* display:  inline-block; */
+  }
 
-        </select>
-    </div><div class="col-md-6">
-    
-        <label for="input6" class="col-md-4">Ticket</label>
-        <input for="input6" class="col-md-8">
-    </div>
+  #popup-form input, #popup-form select, #popup-form label {
+      height:  30px;
+      margin: 5px;
+  }
 
-    </div>
-<div class="col-md-12 footer">
-    
-<div class="col-md-2"><label></label><button id="popup-submit" class="btn btn-lg btn-danger">Guardar</button></div><div class="col-md-2"><label></label><button id="popup-cancel" class="btn btn-lg btn-danger">Cancelar</button></div><div class="col-md-8">
-    <label for="popup-form-area" class="col-md-12">Descripcion</label><textarea id="popup-form-area" class="col-md-12"></textarea>
-</div>
-    
-</div>
-    </div>
-</div>
-<style>
-#popup-form {}
+  #popup-form label {
+      width: calc((100% / 3) - 10px);
+      padding: 0;
+      color:  #ffffff;
+  }
 
-#popup-form .head {
-    text-align:  center;
-    color:  #fff;
-    background: #E52422;
-}
+  #popup-form input, #popup-form select.col-md-8 {
+      width: calc((200% / 3) - 10px);
+  }
 
-.nopadding {
-    padding: 0;
-}
+  #popup-form .footer button {
+      width: 100%;
+  }
 
-div#popup-form {
-    width: 80vw;
-    height: 80vh;
-    top: 10vh;
-    left: 10vw;
+  select:disabled, input:disabled, textarea:disabled {
+      background: #ddd;
+  }
+
+  label.col-md-12 {}
+
+  #popup-form label[for="popup-form-area"] {
+      width: 100%;
+      display:  inline-block;
+      float:  left;
+  }
+
+//
+/* POPUP GRAFICOS */
+
+  #popup-form .graficos label {
+      width:  100%;
+  }
+
+  #popup-form input, #popup-form select {
+      width:  100%;
+  }
+
+  div#popup-form {
+      z-index: 1;
+  }
+  table.table-condensed {
+      color: #fff;
+      background: #222;
+      border-radius: 10px;
+      padding: 10px !important;
+  }
+
+  table.table-condensed .day.old, table.table-condensed .day.new {
+      color: #888;
+  }
+
+  table.table-condensed .dow {
+      color: #E52422;
+  }
+
+  th.dow, th.day, th.switch {
+      padding:  0px !important;
+      text-align:  center !important;
+  }
+
+  th.prev i:before, th.next i:before {
+      content: "<";
+  }
+
+  th.next {
+      transform: rotateY(180deg);
+  }
+
+  th.prev, th.next {
+      text-align:  center;
+      font-family:  sans-serif;
+  }
+  .datetimepicker-minutes, .datetimepicker-hours {
+  //    display:  none !important;
+  }
+
+  .datetimepicker-days {
+  //    display:  block !important;
+  }
+  #popup-form input.col-md-3, #popup-form select.col-md-3 {
+    width: calc( 25% - 25px);
+  }
+
+  #popup-form .graficos label.col-md-10 {
+      width: calc((100% - (50% / 3)) - 10px);
+  }
+
+  #popup-form input.col-md-6, #popup-form label.col-md-6 {
+      width: calc(50% - 10px);
+  }
+
+  #popup-form input.col-md-4, #popup-form label.col-md-4 {
+      width: calc(33% - 10px);
+  }
+
+  #popup-form input.col-md-8, #popup-form label.col-md-8 {
+      width: calc(66% - 10px);
+  }
+
+  #popup-form input.col-md-9, #popup-form label.col-md-9 {
+      width: calc(75% - 10px);
+  }
+
+  #popup-form input.col-md-2, #popup-form label.col-md-2 {
+      width: calc(25% - 10px);
+  }
+
+  input[type=radio], input[type=checkbox] {
+      max-height: 15px;
+      position:  relative;
+      display:  inline-flex;
+  }
+
+  #popup-form input.col-md-2, #popup-form label.col-md-2 {
+      width: calc(50% / 3 - 10px);
+  }
+
+  .flex-margins {
+      display:  flex;
+  }
+
+  .flex-margins * {
+      margin:  auto !important;
+  }
+
+  #popup-form .graficos label.col-md-3 {
+      width: calc(25% - 10px);
+  }
+
+  #popup-form .footer.graficos * {
+      float:  none;
+      display: inline-flex;
+      /* margin:  auto; */
+  }
+
+  #popup-form .footer.graficos {
+      text-align:  center;
+      padding: 5% 15% 5% 5%;
+  }
+  label.col-md-12 {
+    width: 100% !important;
+  }
+
+  .center {
+      text-align:  center;
+  }
+
+/* estilos de tabla */
+  .table-responsive th {
+      width: calc((100% - 17px) / 6);
+  }
+
+  .table-responsive td {
+      width: calc(100% / 6);
+  }
+
+  .table-responsive thead {
+      width: 100%;
+  }
+
+  .table-responsive tbody {
+      overflow: scroll;
+      width: 100%;
+      max-height: 500px;
+      display: inline-block;
+  }
+
+  .table-responsive tr {
+      display: flex;
+      width: 100%;
+  }
+
+/* graficos y cosas */
+  .glyphicon.glyphicon-wrench{
     position: absolute;
-    background: #101010;
-    border-radius: 20px;
-    overflow:  hidden;
-    box-shadow: 0px 0px 1vw 0vw #ffffff50;
-}
+    top: 29px;
+    right: 0px;
+    color: #888;
+    cursor: pointer;
+  }
+  .glyphicon.glyphicon-wrench:before{
+    font-size: 15px;
+  }
 
-#popup-form .head {
-    /* border-radius: 20px; */
-}
-
-#popup-form .head h2 {
-    text-decoration:  underline;
-    margin: 15px;
-}
-
-.col-md-12.body {}
-
-#popup-form .body {
-    padding: 3% 3% 0% 3%;
-}
-
-#popup-form .footer {
-    padding:  3% 3% 3% 3%;
-    display:  flex;
-    flex-direction: row-reverse;
-}
-
-#popup-form .footer * {
-    float:  right;
-    /* display:  inline-block; */
-}
-
-#popup-form input, #popup-form select, #popup-form label {
-    height:  30px;
-    margin: 5px;
-}
-
-#popup-form label {
-    width: calc((100% / 3) - 10px);
-    padding: 0;
-    color:  #ffffff;
-}
-
-#popup-form input, #popup-form select {
-    width: calc((200% / 3) - 10px);
-}
-
-#popup-form .footer button {
-    width: 100%;
-}
-
-select:disabled, input:disabled, textarea:disabled {
-    background: #ddd;
-}
-
-label.col-md-12 {}
-
-#popup-form label[for="popup-form-area"] {
-    width: 100%;
-    display:  inline-block;
-    float:  left;
-}
 </style>
 <script type="text/javascript">
     $('select[for="input1"]').change(function(){
@@ -360,4 +346,269 @@ label.col-md-12 {}
     $("button.editar").click(function(){
       $('#popup-form').show();
     });
+/*    $(function () {
+            $('#date1').datetimepicker({
+                //altFormat: "yy-mm-dd",
+                format: 'MM/YYYY',
+                //viewMode:"years",
+                //disabledTimeIntervals:true,
+                //disabledHours:true,
+                //debug:true,
+                //inline: true,
+                //sideBySide: false,
+                //pickTime: false
+            });
+        });
+    $(function () {
+            $('#date2').datetimepicker({
+                //altFormat: "yy-mm-dd",
+                //format: 'DD/MM/YYYY',
+                //disabledTimeIntervals:true,
+                //disabledHours:true,
+                //debug:true,
+                inline: false,
+                sideBySide: false,
+                pickTime: false
+            });
+        });*/
+        $('.table-responsive .editar').click(function(){
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>editar",
+            dataType: "html",
+            cache   : false,
+            success: function(data){
+              $(data).insertAfter("#allcontent");
+              $("#cancel").click(function(){$("#popup-form").remove();});
+              //console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+        });
+        
+        $('.chart-col .glyphicon.glyphicon-wrench').click(function(){
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>graficos",
+            dataType: "html",
+            cache   : false,
+            success: function(data){
+              $(data).insertAfter("#allcontent");
+              $("#cancel").click(function(){$("#popup-form").remove();});
+              //console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+        });
+
+    var d = new Date();
+    var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+    var strDateOLD = (d.getMonth()==0?(d.getFullYear()-1)+"/"+"12":d.getFullYear() + "/" + (d.getMonth()+1)) + "/" + d.getDate();
 </script>
+  <script type="text/javascript">
+    dateformat1="day";
+    fechaini1="0";
+    fechafin1="0";
+    fechaini2="0";
+    fechafin2="0";
+    clasificacion2="0";
+    fechaini3="0";
+    fechafin3="0";
+    clasificacion3="0";
+    fechaini4="0";
+    fechafin4="0";
+    clasificacion4="0";
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+          $.ajax({
+            type: "GET",
+            url: "<?php echo base_url();?>lista_incidencias/"+dateformat1+"/"+fechaini1+"/"+fechafin1,
+            dataType: "json",
+            cache   : false,
+            success: function(data){
+              dataget1=Object.values(data.valores);
+                var data11 = new google.visualization.DataTable();
+                data11.addColumn('string', 'fechas');
+                data11.addColumn('number', 'cantidad');
+                data11.addRows(dataget1.length);
+              for (var i = 0 ; i < dataget1.length; i++) {
+                data11.setCell(i, 0, dataget1[i]["fechas"]);
+                data11.setCell(i, 1, dataget1[i]["incidencias"]);
+              }
+                var view11 = new google.visualization.DataView(data11);
+                view11.setColumns([0, 1,
+                                 { calc: "stringify",
+                                   sourceColumn: 1,
+                                   type: "string",
+                                   role: "annotation" }]);
+
+                var options11 = {
+                // title: "Density of Precious Metals, in g/cm^3",
+                  bar: {groupWidth: "95%"},
+                  legend: { position: "none" },
+                  //colors: ['yellow', 'blue', 'orange'],
+                };
+                var chart11 = new google.visualization.ColumnChart(document.getElementById("chart1"));
+                chart11.draw(view11, options11);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          })
+          $.ajax({
+            type: "GET",
+            url: "<?php echo base_url();?>incidencias_area/"+fechaini2+"/"+fechafin2+"/"+clasificacion2,
+            dataType: "json",
+            cache   : false,
+            success: function(data){
+              dataget2=Object.values(data.valores);
+              //console.log(dataget2);
+                var data12 = new google.visualization.DataTable();
+                data12.addColumn('string', 'areas');
+                data12.addColumn('number', 'incidencias');
+                data12.addRows(dataget2.length);
+              for (var i = 0 ; i < dataget2.length; i++) {
+                data12.setCell(i, 0, dataget2[i]["areas"]);
+                data12.setCell(i, 1, dataget2[i]["cantidad"]);
+              }
+                var view12 = new google.visualization.DataView(data12);
+                view12.setColumns([0, 1,
+                                 { calc: "stringify",
+                                   sourceColumn: 1,
+                                   type: "string",
+                                   role: "annotation" }]);
+
+                var options12 = {
+                  //title: "Density of Precious Metals, in g/cm^3",
+                  bar: {groupWidth: "95%"},
+                  legend: { position: "none" },
+                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                };
+                var chart12 = new google.visualization.PieChart(document.getElementById("chart2"));
+                chart12.draw(view12, options12);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+          $.ajax({
+            type: "GET",
+            url: "<?php echo base_url();?>incidencias_motivos/"+fechaini3+"/"+fechafin3+"/"+clasificacion3,
+            dataType: "json",
+            cache   : false,
+            success: function(data){
+              dataget3=Object.values(data.valores);
+              //console.log(dataget3);
+                var data13 = new google.visualization.DataTable();
+                data13.addColumn('string', 'motivos');
+                data13.addColumn('number', 'incidencias');
+                data13.addRows(dataget3.length);
+              for (var i = 0 ; i < dataget3.length; i++) {
+                data13.setCell(i, 0, dataget3[i]["motivos"]);
+                data13.setCell(i, 1, dataget3[i]["cantidad"]);
+              }
+                var view13 = new google.visualization.DataView(data13);
+                view13.setColumns([0, 1,
+                                 { calc: "stringify",
+                                   sourceColumn: 1,
+                                   type: "string",
+                                   role: "annotation" }]);
+
+                var options13 = {
+                //title: "Density of Precious Metals, in g/cm^3",
+                  bar: {groupWidth: "95%"},
+                  legend: { position: "none" },
+                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                };
+                var chart13 = new google.visualization.PieChart(document.getElementById("chart3"));
+                chart13.draw(view13, options13);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+          $.ajax({
+            type: "GET",
+            url: "<?php echo base_url();?>incidencia_area_mes/"+fechaini4+"/"+fechafin4+"/"+clasificacion4,
+            dataType: "json",
+            cache   : false,
+            success: function(data){
+              var arraux4;
+              dataget4=Object.values(data.valores);
+              console.log(dataget4);
+              for (var i = 0 ; i < dataget4.length; i++) {
+                if (arraux4[dataget4[i]["fecha"]] === undefined) {
+                  arraux4[dataget4[i]["fecha"]].push(new Array((dataget4[i]["direccion"]=="ocoña1"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="ocoña5"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="camana5"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="camana6"?dataget4[i]["cantidad"]:"")));
+                }
+                else{
+
+                }
+                dataget4[i]["direccion"]
+                dataget4[i]["cantidad"]
+                dataget4[i]["fecha"]
+              }
+              /*dataget3=Object.values(data.valores);
+              console.log(dataget3);
+                var data13 = new google.visualization.DataTable();
+                data13.addColumn('string', 'motivos');
+                data13.addColumn('number', 'incidencias');
+                data13.addRows(dataget3.length);
+              for (var i = 0 ; i < dataget3.length; i++) {
+                data13.setCell(i, 0, dataget3[i]["motivos"]);
+                data13.setCell(i, 1, dataget3[i]["cantidad"]);
+              }
+                var view13 = new google.visualization.DataView(data13);
+                view13.setColumns([0, 1,
+                                 { calc: "stringify",
+                                   sourceColumn: 1,
+                                   type: "string",
+                                   role: "annotation" }]);
+
+                var options13 = {
+                //title: "Density of Precious Metals, in g/cm^3",
+                  bar: {groupWidth: "95%"},
+                  legend: { position: "none" },
+                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                };
+                var chart13 = new google.visualization.PieChart(document.getElementById("chart3"));
+                chart13.draw(view13, options13);*/
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+          //incidencia_area_mes/(:any)/(:any)/(:any)
+
+        array4=[
+          ['Year', 'Sales', 'Expenses'],
+          ['2013',  1000,      400],
+          ['2014',  1170,      460],
+          ['2015',  660,       1120],
+          ['2016',  1030,      540]
+        ];
+        var data4 = google.visualization.arrayToDataTable(array4);
+
+        var options = {
+//          title: 'Company Performance',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart4 = new google.visualization.AreaChart(document.getElementById('chart4'));
+        chart4.draw(data4, options);
+      //console.log(array1);
+      // for (var i = 1; i < array1.length; i++) {
+      //   console.log(array1[i][0]+":"+array1[i][1]);
+      // }
+      // for (var i = 1; i < array2.length; i++) {
+      //   console.log(array2[i][0]+":"+array2[i][1]);
+      // }
+      // for (var i = 1; i < array3.length; i++) {
+      //   console.log(array3[i][0]+":"+array3[i][1]);
+      // }
+      // for (var i = 1; i < array4.length; i++) {
+      //   console.log(array4[i][0]+":"+array4[i][1]);
+      // }
+  }
+
+  </script>
