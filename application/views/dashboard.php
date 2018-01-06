@@ -1,6 +1,6 @@
 <?php 
   if(isset($lista_incidencias)){
-    var_dump($usuario);
+    //var_dump($usuario);
   }
 ?>
     <div class="content-wrapper graficos">
@@ -25,6 +25,15 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="col-md-12 opciones">
+              <div class="left ilb">
+                <button class="btn btn-warning nincidencia">nueva incidencia</button>
+                <button class="btn btn-warning nmotivo">nuevo motivo</button>
+                <button class="btn btn-success ndispositivo">nuevo dispositivo</button>
+                <button class="btn btn-success nmodelo">nuevo modelo</button>
+                <button class="btn btn-success nmarca">nueva marca</button>
+              </div>
             </div>
 
 <?php 
@@ -51,7 +60,7 @@
                                       while ($una_incidencia=$lista_incidencias->unbuffered_row()){
                                         
                                       ?>
-                                        <tr incidencia-id="<?php $una_incidencia->id_incidencia ?>">
+                                        <tr incidencia-id="<?php echo $una_incidencia->id_incidencia; ?>">
                                         <td><?php echo $una_incidencia->modelo; ?></td>
                                         <td><?php echo $una_incidencia->posicion; ?></td>
                                         <td><?php echo $una_incidencia->descripcion; ?></td>
@@ -333,7 +342,7 @@
   .glyphicon.glyphicon-wrench:before{
     font-size: 15px;
   }
-
+.left.ilb{float: left;}
 </style>
 <script type="text/javascript">
     $('select[for="input1"]').change(function(){
@@ -343,10 +352,10 @@
     $('#popup-form .footer button').click(function(){
         $(this).parent().parent().parent().parent().hide();
     });
-    $("button.editar").click(function(){
+    /*$("button.editar").click(function(){
       $('#popup-form').show();
     });
-/*    $(function () {
+    $(function () {
             $('#date1').datetimepicker({
                 //altFormat: "yy-mm-dd",
                 format: 'MM/YYYY',
@@ -371,37 +380,267 @@
                 pickTime: false
             });
         });*/
-        $('.table-responsive .editar').click(function(){
+    selectedincidencia=1;
+    $("button.nmotivo").click(function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>nuevo_motivo",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          $("#popup-submit").click(function(){
+          var dataString  = {
+            motivo : $('#tipo_incidencia').val()
+          };
           $.ajax({
             type: "POST",
-            url: "<?php echo base_url();?>editar",
+            url: "<?php echo base_url();?>add_motivo",
             dataType: "html",
+            data:dataString,
             cache   : false,
             success: function(data){
-              $(data).insertAfter("#allcontent");
-              $("#cancel").click(function(){$("#popup-form").remove();});
-              //console.log(data);
+              console.log(data);
             } ,error: function(xhr, status, error) {
               console.log(status);
             },
           });
-        });
-        
-        $('.chart-col .glyphicon.glyphicon-wrench').click(function(){
+          $("#popup-form").remove();
+          });
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+    $("button.nmarca").click(function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>nueva_marca",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          $("#popup-submit").click(function(){
+          var dataString  = {
+            marca : $('#marca').val()
+          };
           $.ajax({
             type: "POST",
-            url: "<?php echo base_url();?>graficos",
+            url: "<?php echo base_url();?>add_marca",
             dataType: "html",
+            data:dataString,
             cache   : false,
             success: function(data){
-              $(data).insertAfter("#allcontent");
-              $("#cancel").click(function(){$("#popup-form").remove();});
-              //console.log(data);
+              console.log(data);
             } ,error: function(xhr, status, error) {
               console.log(status);
             },
           });
-        });
+          $("#popup-form").remove();
+          });
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+    $("button.nmodelo").click(function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>nuevo_modelo",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          $("#popup-submit").click(function(){
+          var dataString  = { 
+            marca : $('#marca').val(),  
+            modelo : $('#modelo').val()
+          };
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>add_modelo",
+            dataType: "html",
+            data:dataString,
+            cache   : false,
+            success: function(data){
+              console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+          $("#popup-form").remove();
+          });
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+    $("button.ndispositivo").click(function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>nuevo_dispositivo",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          $("#popup-submit").click(function(){
+          var dataString  = { 
+            etiqueta : $('#dispositivo').val(), 
+            modelo : $('#modelo').val()
+          };
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>add_dispositivo",
+            dataType: "html",
+            data:dataString,
+            cache   : false,
+            success: function(data){
+              console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });
+          $("#popup-form").remove();
+          });
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+    $("button.nincidencia").click(function(){
+      selectedincidencia=$(this).parent().parent().attr("incidencia-id");
+      console.log(selectedincidencia);
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>nueva_incidencia",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#popup-submit").click(function(){
+        var dataString  = { dispositivo : $('#dispositivo option:checked').val(), 
+                            espacio : $('#espacio option:checked').val(), 
+                            posicion : $('#posicion option:checked').text(),
+                            tipo_incidencia : $('#tipo_incidencia option:checked').val(),
+                            ticket : $('#ticket').val(),
+                            descripcion : $('#popup-form-area').val() };
+        console.log(dataString.dispositivo);
+        if (dataString.dispositivo=="--" | dataString.ticket=="") {alert("faltan campos por llenar: "+(dataString.dispositivo=="--"?"elegir dispositivo, ":"")+(dataString.ticket=="--"?"llenar ticket dispositivo, ":(dataString.ticket.length<16?"ticket invalido, revisar ticket, ":"")));}
+        else{
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>add_incidencia",
+            dataType: "html",
+            data:dataString,
+            cache   : false,
+            success: function(data){
+              console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });$("#popup-form").remove();
+        }
+          });
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          //console.log(data);
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+
+    $('.table-responsive .editar').click(function(){
+      selectedincidencia=$(this).parent().parent().attr("incidencia-id");
+      console.log(selectedincidencia);
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>editar",
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+              $("#dispositivo").val(selectedincidencia).trigger('change');
+              espaciox=$("[incidencia-id="+selectedincidencia+"] td:nth-child(2)").text();
+              $("#espacio option:contains('"+(espaciox.substring(0,1)=="C"?"camana":"ocoña")+espaciox.substring(2,3)+"')").each(function(){$(this).parent().val($(this).val());});
+              $("#tipo_incidencia").each(function(){$(this).val($(this).find("option:contains('"+$("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").val()+"')").val());});
+              $("#ticket").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(5)").text());
+              $("#popup-form-area").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").text());
+              // $('#espacio option:checked').val()
+              // $('#posicion option:checked').text()
+              // $('#tipo_incidencia option:checked').val()
+              // $('#ticket').val()
+              $('#popup-form-area').val()
+          $("#popup-submit").click(function(){
+        var dataString  = { id_incidencia : selectedincidencia, 
+                            dispositivo : $('#dispositivo option:checked').val(), 
+                            espacio : $('#espacio option:checked').val(), 
+                            posicion : $('#posicion option:checked').text(),
+                            tipo_incidencia : $('#tipo_incidencia option:checked').val(),
+                            ticket : $('#ticket').val(),
+                            descripcion : $('#popup-form-area').val() };
+        console.log(dataString.dispositivo);
+        if (dataString.dispositivo=="--" | dataString.ticket=="") {alert("faltan campos por llenar: "+(dataString.dispositivo=="--"?"elegir dispositivo, ":"")+(dataString.ticket=="--"?"llenar ticket dispositivo, ":(dataString.ticket.length<16?"ticket invalido, revisar ticket, ":"")));}
+        else{
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url();?>edit",
+            dataType: "html",
+            data:dataString,
+            cache   : false,
+            success: function(data){
+              console.log(data);
+            } ,error: function(xhr, status, error) {
+              console.log(status);
+            },
+          });$("#popup-form").remove();
+        }
+          });
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          //console.log(data);
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
+    lastchart=0;
+    $('.chart-col .glyphicon.glyphicon-wrench').click(function(){
+      chartid=$(this).next().attr('id');
+      lastchart=chartid.substring(chartid.length-1,chartid.length);
+        opciones=lastchart;
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>graficos/"+opciones,
+        dataType: "html",
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore("#allcontent");
+          $("#cancel").click(function(){$("#popup-form").remove();});
+          $("#popup-submit").click(function(){
+            //console.log(lastchart);
+            if($("[name=escala]:checked").val()!=undefined){
+              eval('dateformat'+lastchart+'="'+$("[name=escala]:checked").val()+'";');
+              console.log(dateformat1);
+            }
+            eval('fechaini'+lastchart+'="'+$('input[for=input2]').val()+'";');
+            eval('fechafin'+lastchart+'="'+$('input[for=input3]').val()+'";');
+            eval('console.log(fechaini'+lastchart+');console.log(fechafin'+lastchart+');');
+            clasificacion="";
+            $("[name=clasificacion]:checked").each(function(){clasificacion+=(clasificacion==""?"":"_")+$(this).attr("data-id");});
+            clasificacion=(clasificacion==""?"0":clasificacion);
+            eval('clasificacion'+lastchart+'=clasificacion;console.log(clasificacion'+lastchart+');');
+            drawChart();
+            $("#popup-form").remove();
+          });
+          //console.log(data);
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
+    });
 
     var d = new Date();
     var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
@@ -422,8 +661,8 @@
     clasificacion4="0";
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
 
+    function drawChart() {
           $.ajax({
             type: "GET",
             url: "<?php echo base_url();?>lista_incidencias/"+dateformat1+"/"+fechaini1+"/"+fechafin1,
@@ -457,7 +696,7 @@
             } ,error: function(xhr, status, error) {
               console.log(status);
             },
-          })
+          });
           $.ajax({
             type: "GET",
             url: "<?php echo base_url();?>incidencias_area/"+fechaini2+"/"+fechafin2+"/"+clasificacion2,
@@ -465,7 +704,6 @@
             cache   : false,
             success: function(data){
               dataget2=Object.values(data.valores);
-              //console.log(dataget2);
                 var data12 = new google.visualization.DataTable();
                 data12.addColumn('string', 'areas');
                 data12.addColumn('number', 'incidencias');
@@ -482,10 +720,9 @@
                                    role: "annotation" }]);
 
                 var options12 = {
-                  //title: "Density of Precious Metals, in g/cm^3",
                   bar: {groupWidth: "95%"},
                   legend: { position: "none" },
-                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                  colors: ['red','blue', 'orange', 'green'],
                 };
                 var chart12 = new google.visualization.PieChart(document.getElementById("chart2"));
                 chart12.draw(view12, options12);
@@ -500,7 +737,6 @@
             cache   : false,
             success: function(data){
               dataget3=Object.values(data.valores);
-              //console.log(dataget3);
                 var data13 = new google.visualization.DataTable();
                 data13.addColumn('string', 'motivos');
                 data13.addColumn('number', 'incidencias');
@@ -517,10 +753,9 @@
                                    role: "annotation" }]);
 
                 var options13 = {
-                //title: "Density of Precious Metals, in g/cm^3",
                   bar: {groupWidth: "95%"},
                   legend: { position: "none" },
-                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                  colors: ['red','blue', 'orange', 'green'],
                 };
                 var chart13 = new google.visualization.PieChart(document.getElementById("chart3"));
                 chart13.draw(view13, options13);
@@ -534,81 +769,39 @@
             dataType: "json",
             cache   : false,
             success: function(data){
+            $("div#allcontent + div").remove();
+            $("div#allcontent + div").remove();
+            $("div#allcontent + div").remove();
+            $("div#allcontent + div").remove();
+            $("div#allcontent + div").remove();
+            $("div#allcontent + div").remove();
               var arraux4;
+              direcciones=Object.values(data.direcciones);
               dataget4=Object.values(data.valores);
-              console.log(dataget4);
-              for (var i = 0 ; i < dataget4.length; i++) {
-                if (arraux4[dataget4[i]["fecha"]] === undefined) {
-                  arraux4[dataget4[i]["fecha"]].push(new Array((dataget4[i]["direccion"]=="ocoña1"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="ocoña5"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="camana5"?dataget4[i]["cantidad"]:""),(dataget4[i]["direccion"]=="camana6"?dataget4[i]["cantidad"]:"")));
-                }
-                else{
-
-                }
-                dataget4[i]["direccion"]
-                dataget4[i]["cantidad"]
-                dataget4[i]["fecha"]
+              var data14 = new google.visualization.DataTable();
+                data14.addColumn('string', 'fecha');
+              for (var i = 0 ; i < direcciones.length; i++) {
+                data14.addColumn('number', direcciones[i]["direccion"]);
               }
-              /*dataget3=Object.values(data.valores);
-              console.log(dataget3);
-                var data13 = new google.visualization.DataTable();
-                data13.addColumn('string', 'motivos');
-                data13.addColumn('number', 'incidencias');
-                data13.addRows(dataget3.length);
-              for (var i = 0 ; i < dataget3.length; i++) {
-                data13.setCell(i, 0, dataget3[i]["motivos"]);
-                data13.setCell(i, 1, dataget3[i]["cantidad"]);
+                data14.addRows(dataget4.length/direcciones.length);
+              for (var j = 0 ; j < dataget4.length; j=j+direcciones.length) {
+                data14.setCell(j/direcciones.length, 0, dataget4[j]["fecha"]);
+                for (var k = 1 ; k <= direcciones.length; k++) {
+                  data14.setCell(j/direcciones.length, k, dataget4[j+k-1]["cantidad"]);
+                }
               }
-                var view13 = new google.visualization.DataView(data13);
-                view13.setColumns([0, 1,
-                                 { calc: "stringify",
-                                   sourceColumn: 1,
-                                   type: "string",
-                                   role: "annotation" }]);
-
-                var options13 = {
-                //title: "Density of Precious Metals, in g/cm^3",
-                  bar: {groupWidth: "95%"},
-                  legend: { position: "none" },
-                  colors: ['red','yellow', 'blue', 'orange', 'green'],
+                var view14 = new google.visualization.DataView(data14);
+                var options = {
+                  hAxis: {title: '',  titleTextStyle: {color: '#333'}},
+                  vAxis: {minValue: 0}
                 };
-                var chart13 = new google.visualization.PieChart(document.getElementById("chart3"));
-                chart13.draw(view13, options13);*/
+
+                var chart4 = new google.visualization.AreaChart(document.getElementById('chart4'));
+                chart4.draw(data14, options);
             } ,error: function(xhr, status, error) {
               console.log(status);
             },
           });
-          //incidencia_area_mes/(:any)/(:any)/(:any)
-
-        array4=[
-          ['Year', 'Sales', 'Expenses'],
-          ['2013',  1000,      400],
-          ['2014',  1170,      460],
-          ['2015',  660,       1120],
-          ['2016',  1030,      540]
-        ];
-        var data4 = google.visualization.arrayToDataTable(array4);
-
-        var options = {
-//          title: 'Company Performance',
-          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0}
-        };
-
-        var chart4 = new google.visualization.AreaChart(document.getElementById('chart4'));
-        chart4.draw(data4, options);
-      //console.log(array1);
-      // for (var i = 1; i < array1.length; i++) {
-      //   console.log(array1[i][0]+":"+array1[i][1]);
-      // }
-      // for (var i = 1; i < array2.length; i++) {
-      //   console.log(array2[i][0]+":"+array2[i][1]);
-      // }
-      // for (var i = 1; i < array3.length; i++) {
-      //   console.log(array3[i][0]+":"+array3[i][1]);
-      // }
-      // for (var i = 1; i < array4.length; i++) {
-      //   console.log(array4[i][0]+":"+array4[i][1]);
-      // }
-  }
-
+    }
+    //setInterval(function(){ drawChart(); }, 5000);
   </script>

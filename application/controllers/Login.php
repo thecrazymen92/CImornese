@@ -26,7 +26,7 @@ class Login extends CI_Controller {
 
 		$this->load->view('template',$contents);
 
-	}
+		}
 	public function logout(){
 		if($this->input->cookie('logueado', TRUE)){
 			//delete_cookie("name");
@@ -36,7 +36,7 @@ class Login extends CI_Controller {
 			delete_cookie("cargo");
 		}
 		redirect('login');
-	}
+		}
 	public function loginparams(){
 		if($this->input->cookie('logueado', TRUE)){
 			redirect('dashboard');
@@ -137,31 +137,82 @@ class Login extends CI_Controller {
 
 			
 			// }
-
-	}
-	
+		}
 	public function editar(){
-		$contents=array('ejemplo1' => "1");
+		$contents=array('valores' => $this->incidencia_model->form_values());
 		echo $this->load->view('popup-form',$contents,TRUE);
-	}
-	public function configurar(){
-		$contents=array('ejemplo1' => "1");
+		}
+	public function edit(){
+		$this->incidencia_model->editar_incidencia($this->input->post('id_incidencia'),$this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'));
+		echo "asdasd: ".$this->input->post('var1');
+		}
+	public function nuevo_dispositivo(){
+		$contents=array('valores' => $this->incidencia_model->modelos());
+		echo $this->load->view('nuevo-dispositivo',$contents,TRUE);
+		}
+	public function add_dispositivo(){
+		echo $this->incidencia_model->add_dispositivo($this->input->post('etiqueta'),$this->input->post('modelo'));
+		}
+	public function nuevo_modelo(){
+		$contents=array('valores' => $this->incidencia_model->marcas());
+		echo $this->load->view('nuevo-modelo',$contents,TRUE);
+		}
+	public function add_modelo(){
+		//echo $this->input->post("marca").$this->input->post("modelo");
+		echo $this->incidencia_model->add_modelo($this->input->post('marca'),$this->input->post('modelo'));
+		}
+	public function nueva_marca(){
+		$this->load->view('nueva-marca');
+		}
+	public function add_marca(){
+		echo $this->incidencia_model->add_marca($this->input->post('marca'));
+		}
+	public function nuevo_motivo(){
+		$this->load->view('nuevo-tipo-incidencia');
+		}
+	public function add_motivo(){
+		echo $this->incidencia_model->add_motivo($this->input->post('motivo'));
+		}
+	public function nueva_incidencia(){
+		$contents=array('valores' => $this->incidencia_model->form_values());
+		echo $this->load->view('nueva-incidencia',$contents,TRUE);
+		}
+	public function add_incidencia(){
+		echo $this->incidencia_model->add_incidencia($this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'));
+		}
+	public function posiciones($espacio){
+		$posiciones=$this->incidencia_model->posicionxespacios($espacio);
+		echo json_encode($posiciones);
+		}
+	public function configurar($chartid){
+		$custom="vacio";
+				
+		if($chartid=="2") {
+        	$custom=$this->incidencia_model->grafico_incidencias_area("0","0","0","form");
+    	}
+    	else if($chartid=="3") {
+        	$custom=$this->incidencia_model->motivos_incidencias("0","0","0","form");
+    	}
+    	else if($chartid=="4") {
+        	$custom=$this->incidencia_model->incidencia_area_mes("0","0","0","form");
+    	}
+		$contents=array('opciones' => array("chartid"=>$chartid),'valores'=>$custom);
 		echo $this->load->view('popup-form-graficos',$contents,TRUE);
-	}
+		}
 	public function lista_incidencias($tipo,$fecha_ini,$fecha_fin){
-        $lista_incidencias=$this->incidencia_model->grafico_incidencias_fecha($tipo,$fecha_ini,$fecha_fin);
+        $lista_incidencias=$this->incidencia_model->grafico_incidencias_fecha($tipo,$fecha_ini,$fecha_fin,"");
 		echo json_encode($lista_incidencias);
-	}
+		}
 	public function incidencias_area($fecha_ini,$fecha_fin,$areas){
-        $lista_incidencias=$this->incidencia_model->grafico_incidencias_area($fecha_ini,$fecha_fin,$areas);
+        $lista_incidencias=$this->incidencia_model->grafico_incidencias_area($fecha_ini,$fecha_fin,str_replace("_", ",", $areas),"");
         echo json_encode($lista_incidencias);
 		}
 	public function motivos_incidencias($fecha_ini,$fecha_fin,$areas){
-        $lista_incidencias=$this->incidencia_model->motivos_incidencias($fecha_ini,$fecha_fin,$areas);
+        $lista_incidencias=$this->incidencia_model->motivos_incidencias($fecha_ini,$fecha_fin,str_replace("_", ",", $areas),"");
         echo json_encode($lista_incidencias);
 		}
 	public function incidencia_area_mes($fecha_ini,$fecha_fin,$areas){
-        $lista_incidencias=$this->incidencia_model->incidencia_area_mes($fecha_ini,$fecha_fin,$areas);
+        $lista_incidencias=$this->incidencia_model->incidencia_area_mes($fecha_ini,$fecha_fin,str_replace("_", ",", $areas),"");
         echo json_encode($lista_incidencias);
 		}
 	

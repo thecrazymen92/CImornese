@@ -2,7 +2,7 @@
 <div id="popup-form">
   <div class="col-md-12 nopadding">
   <div class="col-md-12 head">
-  <h2 class="col-md-12">Edit/Register(ticket)</h2>
+  <h2 class="col-md-12">Agregar incidencia</h2>
   </div>
   <div class="col-md-12 body">
 
@@ -22,12 +22,6 @@
     ?>
   
   </select>
-  <script>
-      $("#dispositivo").change(function () {
-          $("#modelo").val($("#dispositivo option:checked").attr("modelo"));
-            $("#marca").val($("#dispositivo option:checked").attr("marca"));
-      });
-  </script>
   </div>
 
   <div class="col-md-6">

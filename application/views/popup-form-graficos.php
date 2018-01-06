@@ -2,55 +2,59 @@
 <div id="popup-form">
   <div class="col-md-12 nopadding">
   <div class="col-md-12 head">
-  <h2 class="col-md-12">Grafico</h2>
+  <h2 class="col-md-12">Configuración de dashboard</h2>
   </div>
   <div class="col-md-12 body graficos">
 
 
-
+<?php //var_dump($opciones);
+$fecha = new DateTime();
+$fecha->modify('-1 day');
+$hoy = $fecha->format('Y-m-d');
+$fecha->modify('-1 month');
+$mespasado=$fecha->format('Y-m-d');
+if($opciones["chartid"]=="1"){ ?>
   <div class="col-md-3">
-  <label class="col-md-12 center" style="">Ver por:</label>
-  <div class="col-md-12 flex-margins">
-  <input id="radio1" name="escala" type="radio" class="col-md-2">
-  <label class="col-md-10" for="radio1" style="">Días</label>
+    <label class="col-md-12 center" style="">Ver por:</label>
+    <div class="col-md-12 flex-margins">
+      <input id="radio1" value="day" name="escala" type="radio" class="col-md-2">
+      <label class="col-md-10" for="radio1" style="">Días</label>
+    </div>
+    <div class="col-md-12 flex-margins">
+      <input id="radio2" value="month" name="escala" type="radio" class="col-md-2">
+      <label class="col-md-10" style="" for="radio2">Meses</label>
+    </div>
+    <div class="col-md-12 flex-margins">
+      <input id="radio3" value="year" name="escala" type="radio" class="col-md-2">
+      <label class="col-md-10" style="" for="radio3">Años</label>
+    </div>
   </div>
-  <div class="col-md-12 flex-margins">
-  <input id="radio2" name="escala" type="radio" class="col-md-2">
-  <label class="col-md-10" style="" for="radio2">Meses</label>
-  </div>
-  <div class="col-md-12 flex-margins">
-  <input id="radio3" name="escala" type="radio" class="col-md-2">
-  <label class="col-md-10" style="" for="radio3">Años</label>
-  </div>
-  </div><div class="col-md-5">
-
-  <label class="col-md-12 center" for="input2">Rango:</label>
-  <label for="input2" class="col-md-3" style="">Inicio</label><input for="input2" type="date" value="2017-06-01" class="col-md-9"><label for="input3" class="col-md-3" style="">Fin</label><input for="input3" type="date" value="2017-06-01" class="col-md-9">
-  </div>
-
-
-  <div class="col-md-1">
-  </div>
-  <div class="col-md-3">
-
-  <label class="col-md-12 center">Clasificación</label>
-  <div class="col-md-12 flex-margins">
-  <input id="radio1" data-id="1" name="clasificacion" type="checkbox" class="col-md-2">
-  <label class="col-md-10" for="radio1">Ocoña 1</label>
-  </div>
-  <div class="col-md-12 flex-margins">
-  <input id="radio2" data-id="2" name="clasificacion" type="checkbox" class="col-md-2">
-  <label class="col-md-10" for="radio2">Ocoña 5</label>
+<?php } ?>
+  <div class="col-md-8">
+    <label class="col-md-12 center" for="input2">Rango:</label>
+    <label for="input2" class="col-md-2" style="">Inicio</label>
+    <input for="input2" type="date" value="<?php echo $mespasado; ?>" class="col-md-4">
+    <label for="input3" class="col-md-2" style="">Fin</label>
+    <input for="input3" type="date" value="<?php echo $hoy; ?>" class="col-md-4">
   </div>
 
-  
-  <div class="col-md-12 flex-margins">
-  <input id="radio3" data-id="3" name="clasificacion" type="checkbox" class="col-md-2">
-  <label class="col-md-10" for="radio3">Camana 5</label>
-  </div><div class="col-md-12 flex-margins">
-  <input id="radio4" data-id="4" name="clasificacion" type="checkbox" class="col-md-2">
-  <label class="col-md-10" for="radio4">Camana 6</label>
-  </div></div>
+
+<?php if($opciones["chartid"]=="2" | $opciones["chartid"]=="3" | $opciones["chartid"]=="4"){
+  if(gettype($valores)=="array"){?>
+  <div class="col-md-4">
+    <label class="col-md-12 center">Clasificación</label>
+  <?php
+    foreach ($valores["valores"] as $valor) {//var_dump($valores);
+      ?>
+      <div class="col-md-12 flex-margins">
+        <input id="radio1" data-id="<?php echo $valor["id"]; ?>" name="clasificacion" type="checkbox" class="col-md-2">
+        <label class="col-md-10" for="radio1"><?php echo $valor["valor"]; ?></label>
+      </div>
+      <?php
+    }
+  ?>
+  </div>
+<?php }} ?>
 
 
 
