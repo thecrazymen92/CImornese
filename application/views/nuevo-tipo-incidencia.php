@@ -1,11 +1,11 @@
 <div id="popup-form">
   <div class="col-md-12 nopadding">
     <div class="col-md-12 head">
-      <h2 class="col-md-12">Nuevo tipo_incidencia</h2>
+      <h2 class="col-md-12">Nuevo Motivo</h2>
     </div>
     <div class="col-md-12 body">
       <div class="col-md-6">
-        <label for="tipo_incidencia" class="col-md-4">Tipo de incidencia</label>
+        <label for="tipo_incidencia" class="col-md-4">Motivo</label>
         <input id="tipo_incidencia" for="tipo_incidencia" class="col-md-8">
       </div>
     </div>

@@ -10,7 +10,7 @@
 
   <div class="col-md-6">
 
-  <label for="dispositivo" class="col-md-4">Dispositivo</label>
+  <label for="dispositivo" class="col-md-4">Etiqueta</label>
   <select id="dispositivo" for="dispositivo" class="col-md-8">
   <option value="--" modelo="seleccionar dispositivo" marca="seleccionar dispositivo">--</option>
     <?php 
@@ -43,38 +43,51 @@
             foreach ($valores["espacios"] as $espacio) {
                 echo '<option value="'.$espacio["id_espacio"].'">'.$espacio["direccion"].'</option>';
             }
-        } 
+        }
     ?>
   </select>
-  <script>
-    function llenaposiciones(){
-          $.ajax({
-            type: "GET",
-            url: "<?php echo base_url();?>posiciones/"+$("#espacio :checked").val(),
-            dataType: "json",
-            cache   : false,
-            success: function(data){
-                console.log(data);
-              posiciones=Object.values(data.posiciones);
-              htmlpos="";
-              for (var i = 0 ; i < posiciones.length; i++) {
-                htmlpos+='<option value="'+posiciones[i]["id_espacio"]+'">'+posiciones[i]["posicion"]+'</option>';
-              }
-              $("#posicion").html(htmlpos);
-            } ,error: function(xhr, status, error) {
-              console.log(status);
-            },
-          });
-    }
-        llenaposiciones();
-      $("#espacio").change(function(){llenaposiciones();});
-  </script>
   </div>
   <div class="col-md-6">
 
   <label for="posicion" class="col-md-4">Posicion</label>
-  <select id="posicion" for="posicion" class="col-md-8">
-  </select>
+  <div id="posicionex" class="col-md-2" style="color: #fff;margin: 5px;/* width:  calc(16.66% - 10px); */">C-5</div>
+  <input id="posicion" for="posicion" class="col-md-6" type="number">
+
+  <script>
+      /*
+        function llenaposiciones(){
+              $.ajax({
+                type: "GET",
+                url: "<?php echo base_url();?>posiciones/"+$("#espacio :checked").val(),
+                dataType: "json",
+                cache   : false,
+                success: function(data){
+                    console.log(data);
+                  posiciones=Object.values(data.posiciones);
+                  htmlpos="";
+                  for (var i = 0 ; i < posiciones.length; i++) {
+                    htmlpos+='<option value="'+posiciones[i]["id_espacio"]+'">'+posiciones[i]["posicion"]+'</option>';
+                  }
+                  $("#posicion").html(htmlpos);
+                } ,error: function(xhr, status, error) {
+                  console.log(status);
+                },
+              });
+        }
+            llenaposiciones();
+          $("#espacio").change(function(){llenaposiciones();});
+        */
+      $("#espacio").change(function(){
+        texto=$("#espacio option:checked").text();
+        console.log(texto);
+        tamañotexto=texto.length;
+        $("#posicionex").text(texto.substr(0,1)+"-"+texto.substr(tamañotexto-1,tamañotexto));
+        });
+      $("#dispositivo").change(function () {
+          $("#modelo").val($("#dispositivo option:checked").attr("modelo"));
+            $("#marca").val($("#dispositivo option:checked").attr("marca"));
+      });
+  </script>
   </div>
   <div class="col-md-6">
 

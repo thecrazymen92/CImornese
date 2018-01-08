@@ -10,7 +10,7 @@
 
   <div class="col-md-6">
 
-  <label for="dispositivo" class="col-md-4">Dispositivo</label>
+  <label for="dispositivo" class="col-md-4">Etiqueta</label>
   <select id="dispositivo" for="dispositivo" class="col-md-8">
   <option value="--" modelo="seleccionar dispositivo" marca="seleccionar dispositivo">--</option>
     <?php 

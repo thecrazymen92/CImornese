@@ -147,7 +147,7 @@ class Login extends CI_Controller {
 		echo "asdasd: ".$this->input->post('var1');
 		}
 	public function nuevo_dispositivo(){
-		$contents=array('valores' => $this->incidencia_model->modelos());
+		$contents=array('valores' => $this->incidencia_model->modelos(),'valores2' => $this->incidencia_model->marcas());
 		echo $this->load->view('nuevo-dispositivo',$contents,TRUE);
 		}
 	public function add_dispositivo(){

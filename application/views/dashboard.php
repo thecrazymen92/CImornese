@@ -24,28 +24,26 @@
                         <div id="chart4" class="chart-box"></div>
                     </div>
                 </div>
-
             </div>
             <div class="col-md-12 opciones">
               <div class="left ilb">
                 <button class="btn btn-warning nincidencia">nueva incidencia</button>
                 <button class="btn btn-warning nmotivo">nuevo motivo</button>
                 <button class="btn btn-success ndispositivo">nuevo dispositivo</button>
-                <button class="btn btn-success nmodelo">nuevo modelo</button>
-                <button class="btn btn-success nmarca">nueva marca</button>
+                <!-- <button class="btn btn-success nmodelo">nuevo modelo</button>
+                <button class="btn btn-success nmarca">nueva marca</button> -->
               </div>
             </div>
-
 <?php 
   if(isset($lista_incidencias)){
 ?>
-
             <div class="row">
                 <div class="col-md-12">
                      <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Etiqueta</th>
                                             <th>Modelo</th>
                                             <!--<th>Campaña</th>-->
                                             <th>Posición</th>
@@ -61,6 +59,7 @@
                                         
                                       ?>
                                         <tr incidencia-id="<?php echo $una_incidencia->id_incidencia; ?>">
+                                        <td><?php echo "Mornese - ".$una_incidencia->etiqueta; ?></td>
                                         <td><?php echo $una_incidencia->modelo; ?></td>
                                         <td><?php echo $una_incidencia->posicion; ?></td>
                                         <td><?php echo $una_incidencia->descripcion; ?></td>
@@ -308,7 +307,7 @@
 
 /* estilos de tabla */
   .table-responsive th {
-      width: calc((100% - 17px) / 6);
+      width: calc((100% - 17px) / 7);
   }
 
   .table-responsive td {
@@ -342,7 +341,29 @@
   .glyphicon.glyphicon-wrench:before{
     font-size: 15px;
   }
-.left.ilb{float: left;}
+  .left.ilb{float: left;}
+  .multi-add fieldset {
+    padding: .35em .625em .75em !important;
+    margin: 0 2px !important;
+    border: 1px solid #c0c0c0 !important;
+  }
+
+  .multi-add legend {
+      width: auto;
+      padding: 0 5px;
+      margin-bottom: 0;
+      font-size: 14px;
+      border-bottom:  0;
+      color:white;
+  }
+
+  .multi-add i.glyphicon.glyphicon-plus {
+      margin-right: 5px;
+  }
+
+  #popup-form input.col-md-6, #popup-form select.col-md-6 {
+      width: calc(50% - 25px);
+  }
 </style>
 <script type="text/javascript">
     $('select[for="input1"]').change(function(){
@@ -382,6 +403,7 @@
         });*/
     selectedincidencia=1;
     $("button.nmotivo").click(function(){
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>nuevo_motivo",
@@ -412,8 +434,10 @@
           console.log(status);
         },
       });
+      }
     });
-    $("button.nmarca").click(function(){
+    /*$("button.nmarca").click(function(){
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>nueva_marca",
@@ -444,8 +468,10 @@
           console.log(status);
         },
       });
-    });
-    $("button.nmodelo").click(function(){
+      }
+    });*/
+    /*$("button.nmodelo").click(function(){
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>nuevo_modelo",
@@ -477,8 +503,10 @@
           console.log(status);
         },
       });
-    });
+      }
+    });*/
     $("button.ndispositivo").click(function(){
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>nuevo_dispositivo",
@@ -487,33 +515,74 @@
         success: function(data){
           $(data).insertBefore("#allcontent");
           $("#cancel").click(function(){$("#popup-form").remove();});
-          $("#popup-submit").click(function(){
-          var dataString  = { 
-            etiqueta : $('#dispositivo').val(), 
-            modelo : $('#modelo').val()
-          };
-          $.ajax({
-            type: "POST",
-            url: "<?php echo base_url();?>add_dispositivo",
-            dataType: "html",
-            data:dataString,
-            cache   : false,
-            success: function(data){
-              console.log(data);
-            } ,error: function(xhr, status, error) {
-              console.log(status);
-            },
+          $(".dispositivo .btn.btn-success").click(function(){
+            var dataString  = { 
+              etiqueta : $('#dispositivo').val(), 
+              modelo : $('#keymodelo').val()
+            };
+            $.ajax({
+              type: "POST",
+              url: "<?php echo base_url();?>add_dispositivo",
+              dataType: "html",
+              data:dataString,
+              cache   : false,
+              success: function(data){
+                console.log(data);
+              } ,error: function(xhr, status, error) {
+                console.log(status);
+              },
+            });
+            //$("#popup-form").remove();
           });
-          $("#popup-form").remove();
+
+          $(".modelo .btn.btn-success").click(function(){
+            var dataString  = { 
+              marca : $('#keymarca').val(),  
+              modelo : $('#modelo').val()
+            };
+            $.ajax({
+              type: "POST",
+              url: "<?php echo base_url();?>add_modelo",
+              dataType: "html",
+              data:dataString,
+              cache   : false,
+              success: function(data){
+                console.log(data);
+              } ,error: function(xhr, status, error) {
+                console.log(status);
+              },
+            });
+            //$("#popup-form").remove();
+          });
+
+          $(".marca .btn.btn-success").click(function(){
+            var dataString  = {
+              marca : $('#marca').val()
+            };
+            $.ajax({
+              type: "POST",
+              url: "<?php echo base_url();?>add_marca",
+              dataType: "html",
+              data:dataString,
+              cache   : false,
+              success: function(data){
+                console.log(data);
+              } ,error: function(xhr, status, error) {
+                console.log(status);
+              },
+              });
+              //$("#popup-form").remove();
           });
         } ,error: function(xhr, status, error) {
           console.log(status);
         },
       });
+    }
     });
     $("button.nincidencia").click(function(){
       selectedincidencia=$(this).parent().parent().attr("incidencia-id");
       console.log(selectedincidencia);
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>nueva_incidencia",
@@ -523,8 +592,8 @@
           $(data).insertBefore("#allcontent");
           $("#popup-submit").click(function(){
         var dataString  = { dispositivo : $('#dispositivo option:checked').val(), 
-                            espacio : $('#espacio option:checked').val(), 
-                            posicion : $('#posicion option:checked').text(),
+                            espacio : $('#espacio').val(), 
+                            posicion : $('#posicion').val(),
                             tipo_incidencia : $('#tipo_incidencia option:checked').val(),
                             ticket : $('#ticket').val(),
                             descripcion : $('#popup-form-area').val() };
@@ -551,11 +620,13 @@
           console.log(status);
         },
       });
+      }
     });
 
     $('.table-responsive .editar').click(function(){
       selectedincidencia=$(this).parent().parent().attr("incidencia-id");
       console.log(selectedincidencia);
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>editar",
@@ -564,11 +635,11 @@
         success: function(data){
           $(data).insertBefore("#allcontent");
               $("#dispositivo").val(selectedincidencia).trigger('change');
-              espaciox=$("[incidencia-id="+selectedincidencia+"] td:nth-child(2)").text();
+              espaciox=$("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").text();
               $("#espacio option:contains('"+(espaciox.substring(0,1)=="C"?"camana":"ocoña")+espaciox.substring(2,3)+"')").each(function(){$(this).parent().val($(this).val());});
-              $("#tipo_incidencia").each(function(){$(this).val($(this).find("option:contains('"+$("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").val()+"')").val());});
-              $("#ticket").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(5)").text());
-              $("#popup-form-area").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").text());
+              $("#tipo_incidencia").each(function(){$(this).val($(this).find("option:contains('"+$("[incidencia-id="+selectedincidencia+"] td:nth-child(4)").val()+"')").val());});
+              $("#ticket").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(6)").text());
+              $("#popup-form-area").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(4)").text());
               // $('#espacio option:checked').val()
               // $('#posicion option:checked').text()
               // $('#tipo_incidencia option:checked').val()
@@ -605,12 +676,14 @@
           console.log(status);
         },
       });
+      }
     });
     lastchart=0;
     $('.chart-col .glyphicon.glyphicon-wrench').click(function(){
       chartid=$(this).next().attr('id');
       lastchart=chartid.substring(chartid.length-1,chartid.length);
         opciones=lastchart;
+      if ($("#popup-form").length==0){
       $.ajax({
         type: "POST",
         url: "<?php echo base_url();?>graficos/"+opciones,
@@ -640,6 +713,7 @@
           console.log(status);
         },
       });
+      }
     });
 
     var d = new Date();

@@ -4,8 +4,9 @@ class Incidencia_model extends CI_Model {
       parent::__construct();
    }
    public function lista_incidencias(){
-      $query='SELECT i.id_incidencia, CONCAT(ma.marca, " - ", mo.modelo) as modelo, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,i.espacio_exacto) as posicion, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca
-         WHERE i.fecha>=DATE_SUB(NOW(),INTERVAL 3 MONTH)';
+      $query='SELECT i.id_incidencia, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,i.espacio_exacto) as posicion, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca
+         WHERE i.fecha>=DATE_SUB(NOW(),INTERVAL 2 MONTH)
+         ORDER BY i.fecha DESC';
       $resultado=$this->db->query($query);
       return $resultado;
       }
@@ -74,6 +75,7 @@ class Incidencia_model extends CI_Model {
       $this->db->set('fecha', 'NOW()', FALSE);
       $this->db->insert('incidencia');
       if ($this->db->affected_rows() == '1') {
+         echo $this->db->query;
           echo "ok";
       } else {
          echo "error";
