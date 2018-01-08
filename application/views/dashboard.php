@@ -33,6 +33,7 @@
                 <!-- <button class="btn btn-success nmodelo">nuevo modelo</button>
                 <button class="btn btn-success nmarca">nueva marca</button> -->
               </div>
+              <button class="btn btn-success update-table right ilb">Actualizar</button>
             </div>
 <?php 
   if(isset($lista_incidencias)){
@@ -363,6 +364,9 @@
 
   #popup-form input.col-md-6, #popup-form select.col-md-6 {
       width: calc(50% - 25px);
+  }
+  .right {
+    float:  right;
   }
 </style>
 <script type="text/javascript">

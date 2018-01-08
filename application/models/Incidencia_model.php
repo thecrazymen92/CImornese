@@ -192,4 +192,13 @@ class Incidencia_model extends CI_Model {
          echo "error";
       }
       }
+   public function incidencia_mayor($nincidencia){
+      $query='SELECT i.id_incidencia, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,i.espacio_exacto) as posicion, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca
+         WHERE i.id_incidencia>'.$nincidencia.'
+         ORDER BY i.fecha DESC';
+      $resultado=$this->db->query($query);
+      return $resultado;
+      }
+   
+   //SELECT * FROM `incidencia` WHERE id_incidencia>75 ORDER BY `fecha` DESC
 }
