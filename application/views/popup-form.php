@@ -39,7 +39,19 @@
   <label for="marca" class="col-md-4">Marca</label>
   <input id="marca" for="marca" value="--" class="col-md-8" disabled="">
   </div>
+  <div class="col-md-6">
 
+    <label for="campana" class="col-md-4">Campaña</label>
+    <select id="campana" for="campana" class="col-md-8">
+    <?php 
+        if(gettype($valores["campanas"])=="array"){
+            foreach ($valores["campanas"] as $campana) {
+                echo '<option value="'.$campana["id_campana"].'">'.$campana["nombre"].'</option>';
+            }
+        }
+    ?>
+    </select>
+    </div>
   <div class="col-md-6">
 
   <label for="espacio" class="col-md-4">Espacio</label>

@@ -64,13 +64,14 @@ class Incidencia_model extends CI_Model {
          echo "error";
       }
       }
-   public function add_incidencia($dispositivo, $espacio, $posicion, $tipo_incidencia, $ticket, $descripcion){
+   public function add_incidencia($dispositivo, $espacio, $posicion, $tipo_incidencia, $ticket, $descripcion,$campana){
       $this->db->set('id_incidencia', 'NULL', FALSE);
       $this->db->set('id_espacio', $espacio, FALSE);
       $this->db->set('espacio_exacto', $posicion, TRUE);
       $this->db->set('id_dispositivo', $dispositivo, FALSE);
       $this->db->set('ticket', $ticket, TRUE);
       $this->db->set('id_tipo_incidencia', $tipo_incidencia, FALSE);
+      $this->db->set('id_campana', $campana, FALSE);
       $this->db->set('descripcion', $descripcion, TRUE);
       $this->db->set('fecha', 'NOW()', FALSE);
       $this->db->insert('incidencia');
@@ -168,14 +169,16 @@ class Incidencia_model extends CI_Model {
       $resultado2=$this->db->query($query2);
       $query3='SELECT id_espacio, piso, direccion FROM espacio';
       $resultado3=$this->db->query($query3);
-      return $returnArray = array('dispositivos' => $resultado1->result_array(),'incidencias' => $resultado2->result_array(),'espacios' => $resultado3->result_array());
+      $query4='SELECT * FROM campaña';
+      $resultado4=$this->db->query($query4);
+      return $returnArray = array('dispositivos' => $resultado1->result_array(),'incidencias' => $resultado2->result_array(),'espacios' => $resultado3->result_array(),'campanas' => $resultado4->result_array());
       }
    public function posicionxespacios($idespacios){
       $query='SELECT * FROM `espacio_posicion` WHERE id_espacio='.$idespacios.' ORDER BY CAST(posicion as INTEGER);';
       $resultado1=$this->db->query($query);
       return $returnArray = array('posiciones' => $resultado1->result_array());
       }
-   public function editar_incidencia($id_incidencia, $dispositivo, $espacio, $posicion, $tipo_incidencia, $ticket, $descripcion)
+   public function editar_incidencia($id_incidencia, $dispositivo, $espacio, $posicion, $tipo_incidencia, $ticket, $descripcion, $campana)
    {
       //$this->db->set('id_incidencia', 'field+1', FALSE);
       $this->db->set('id_espacio', $espacio, FALSE);
@@ -185,6 +188,7 @@ class Incidencia_model extends CI_Model {
       $this->db->set('id_tipo_incidencia', $tipo_incidencia, FALSE);
       $this->db->set('descripcion', $descripcion, TRUE);
       $this->db->where('id_incidencia', $id_incidencia);
+      $this->db->where('id_campana', $campana);
       $this->db->update('incidencia');
       if ($this->db->affected_rows() == '1') {
           echo "ok";

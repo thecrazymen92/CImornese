@@ -91,7 +91,6 @@ class Login extends CI_Controller {
 		// }else{
 		// 	redirect('/login');
 		// }
-	
 	}
 	public function dashboard(){
 		//var_dump($this->session->has_userdata('logueado'));
@@ -143,7 +142,7 @@ class Login extends CI_Controller {
 		echo $this->load->view('popup-form',$contents,TRUE);
 		}
 	public function edit(){
-		$this->incidencia_model->editar_incidencia($this->input->post('id_incidencia'),$this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'));
+		$this->incidencia_model->editar_incidencia($this->input->post('id_incidencia'),$this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'),$this->input->post('campana'));
 		echo "asdasd: ".$this->input->post('var1');
 		}
 	public function nuevo_dispositivo(){
@@ -178,7 +177,7 @@ class Login extends CI_Controller {
 		echo $this->load->view('nueva-incidencia',$contents,TRUE);
 		}
 	public function add_incidencia(){
-		echo $this->incidencia_model->add_incidencia($this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'));
+		echo $this->incidencia_model->add_incidencia($this->input->post('dispositivo'),$this->input->post('espacio'),$this->input->post('posicion'),$this->input->post('tipo_incidencia'),$this->input->post('ticket'),$this->input->post('descripcion'),$this->input->post('campana'));
 		}
 	public function posiciones($espacio){
 		$posiciones=$this->incidencia_model->posicionxespacios($espacio);
@@ -199,17 +198,14 @@ class Login extends CI_Controller {
 		$contents=array('opciones' => array("chartid"=>$chartid),'valores'=>$custom);
 		echo $this->load->view('popup-form-graficos',$contents,TRUE);
 		}
-	
 	public function lista_incidencias($tipo,$fecha_ini,$fecha_fin){
         $lista_incidencias=$this->incidencia_model->grafico_incidencias_fecha($tipo,$fecha_ini,$fecha_fin,"");
 		echo json_encode($lista_incidencias);
 		}
-	
 	public function update_table(){
 		$contents=array('valores' => $this->incidencia_model->incidencia_mayor($this->input->post('key')));
 		echo $this->load->view('table-files',$contents,TRUE);
 		}
-	
 	public function incidencias_area($fecha_ini,$fecha_fin,$areas){
         $lista_incidencias=$this->incidencia_model->grafico_incidencias_area($fecha_ini,$fecha_fin,str_replace("_", ",", $areas),"");
         echo json_encode($lista_incidencias);

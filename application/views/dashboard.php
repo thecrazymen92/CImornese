@@ -639,6 +639,7 @@
                             posicion : $('#posicion').val(),
                             tipo_incidencia : $('#tipo_incidencia option:checked').val(),
                             ticket : $('#ticket').val(),
+                            campana : $('#campana').val(),
                             descripcion : $('#popup-form-area').val() };
         console.log(dataString.dispositivo);
         if (dataString.dispositivo=="--" | dataString.ticket=="") {alert("faltan campos por llenar: "+(dataString.dispositivo=="--"?"elegir dispositivo, ":"")+(dataString.ticket=="--"?"llenar ticket dispositivo, ":(dataString.ticket.length<16?"ticket invalido, revisar ticket, ":"")));}
@@ -696,7 +697,8 @@
                             posicion : $('#posicion option:checked').text(),
                             tipo_incidencia : $('#tipo_incidencia option:checked').val(),
                             ticket : $('#ticket').val(),
-                            descripcion : $('#popup-form-area').val() };
+                            descripcion : $('#popup-form-area').val(),
+                            campana : $('#campana').val() };
         console.log(dataString.dispositivo);
         if (dataString.dispositivo=="--" | dataString.ticket=="") {alert("faltan campos por llenar: "+(dataString.dispositivo=="--"?"elegir dispositivo, ":"")+(dataString.ticket=="--"?"llenar ticket dispositivo, ":(dataString.ticket.length<16?"ticket invalido, revisar ticket, ":"")));}
         else{
