@@ -4,7 +4,7 @@ class Incidencia_model extends CI_Model {
       parent::__construct();
    }
    public function lista_incidencias(){
-      $query='SELECT i.id_incidencia, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,i.espacio_exacto) as posicion, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca
+      $query='SELECT i.id_incidencia, i.id_dispositivo, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, ca.nombre as campana, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,IF(LENGTH(i.espacio_exacto) BETWEEN -1 AND 3,CAST(ADDCERO(3 - LENGTH(i.espacio_exacto)) AS CHAR),""),i.espacio_exacto) as posicion, ti.incidencia, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca INNER JOIN campaña ca ON ca.id_campana=i.id_campana INNER JOIN tipo_incidencia ti ON ti.id_tipo_incidencia=i.id_tipo_incidencia 
          WHERE i.fecha>=DATE_SUB(NOW(),INTERVAL 2 MONTH)
          ORDER BY i.fecha DESC';
       $resultado=$this->db->query($query);
@@ -75,7 +75,7 @@ class Incidencia_model extends CI_Model {
       $this->db->set('fecha', 'NOW()', FALSE);
       $this->db->insert('incidencia');
       if ($this->db->affected_rows() == '1') {
-         echo $this->db->query;
+         //echo $this->db->query;
           echo "ok";
       } else {
          echo "error";
@@ -193,11 +193,11 @@ class Incidencia_model extends CI_Model {
       }
       }
    public function incidencia_mayor($nincidencia){
-      $query='SELECT i.id_incidencia, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, CONCAT(IF(e.direccion LIKE "%ocoñ%", "O", "C"), "-", e.piso,i.espacio_exacto) as posicion, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca
-         WHERE i.id_incidencia>'.$nincidencia.'
+      $query='SELECT i.id_incidencia, i.id_dispositivo, d.etiqueta, CONCAT(ma.marca, " - ", mo.modelo) as modelo, ca.nombre as campana, CONCAT(IF(e.direccion LIKE "%oco%", "O", "C"), "-", e.piso,IF(LENGTH(i.espacio_exacto) BETWEEN -1 AND 3,CAST(ADDCERO(3 - LENGTH(i.espacio_exacto)) AS CHAR),""),i.espacio_exacto) as posicion, ti.incidencia, i.descripcion, i.ticket, i.fecha FROM incidencia i INNER JOIN espacio e ON e.id_espacio=i.id_espacio INNER JOIN dispositivo d ON d.id_dispositivo=i.id_dispositivo INNER JOIN modelos mo ON mo.id_modelo=d.id_modelo INNER JOIN marcas ma ON ma.id_marca=mo.id_marca INNER JOIN campaña ca ON ca.id_campana=i.id_campana INNER JOIN tipo_incidencia ti ON ti.id_tipo_incidencia=i.id_tipo_incidencia 
+         WHERE i.id_incidencia > '.$nincidencia.'
          ORDER BY i.fecha DESC';
       $resultado=$this->db->query($query);
-      return $resultado;
+      return array("incidencias" => $resultado->result_array(), "query" => $query);
       }
    
    //SELECT * FROM `incidencia` WHERE id_incidencia>75 ORDER BY `fecha` DESC

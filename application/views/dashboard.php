@@ -8,26 +8,26 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3 chart-col">
-                        <h3>Incidencia de headsets</h3><i class="glyphicon glyphicon-wrench"></i>
+                        <h3>Sucesos de headsets</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart1" class="chart-box"></div>
                     </div>
                     <div class="col-md-3 chart-col">
-                        <h3>Incidencias por Area</h3><i class="glyphicon glyphicon-wrench"></i>
+                        <h3>Sucesos por Espacio</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart2" class="chart-box"></div>
                     </div>
                     <div class="col-md-3 chart-col">
-                        <h3>Motivos de incidencias</h3><i class="glyphicon glyphicon-wrench"></i>
+                        <h3>Motivos de Sucesos</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart3" class="chart-box"></div>
                     </div>
                     <div class="col-md-3 chart-col">
-                        <h3>Incidencia x area x mes</h3><i class="glyphicon glyphicon-wrench"></i>
+                        <h3>Sucesos x area x mes</h3><i class="glyphicon glyphicon-wrench"></i>
                         <div id="chart4" class="chart-box"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 opciones">
               <div class="left ilb">
-                <button class="btn btn-warning nincidencia">nueva incidencia</button>
+                <button class="btn btn-warning nincidencia">nuevo suceso</button>
                 <button class="btn btn-warning nmotivo">nuevo motivo</button>
                 <button class="btn btn-success ndispositivo">nuevo dispositivo</button>
                 <!-- <button class="btn btn-success nmodelo">nuevo modelo</button>
@@ -46,7 +46,7 @@
                                         <tr>
                                             <th>Etiqueta</th>
                                             <th>Modelo</th>
-                                            <!--<th>Campaña</th>-->
+                                            <th>Campaña</th>
                                             <th>Posición</th>
                                             <th>Motivo</th>
                                             <th>Fecha </th>
@@ -59,14 +59,16 @@
                                       while ($una_incidencia=$lista_incidencias->unbuffered_row()){
                                         
                                       ?>
-                                        <tr incidencia-id="<?php echo $una_incidencia->id_incidencia; ?>">
-                                        <td><?php echo "Mornese - ".$una_incidencia->etiqueta; ?></td>
-                                        <td><?php echo $una_incidencia->modelo; ?></td>
-                                        <td><?php echo $una_incidencia->posicion; ?></td>
-                                        <td><?php echo $una_incidencia->descripcion; ?></td>
-                                        <td><?php echo $una_incidencia->fecha; ?></td>
-                                        <td><?php echo $una_incidencia->ticket; ?></td>
-                                        <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
+                                        <tr incidencia-id="<?php echo $una_incidencia->id_incidencia; ?>" dispositivo="<?php echo $una_incidencia->id_dispositivo; ?>">
+                                          
+                                          <td><div class="tooltip tr-tooltip"><?php echo $una_incidencia->descripcion; ?></div><?php echo "Mornese - ".$una_incidencia->etiqueta; ?></td>
+                                          <td><?php echo $una_incidencia->modelo; ?></td>
+                                          <td><?php echo $una_incidencia->campana; ?></td>
+                                          <td><?php echo $una_incidencia->posicion; ?></td>
+                                          <td><?php echo $una_incidencia->incidencia; ?></td>
+                                          <td><?php echo $una_incidencia->fecha; ?></td>
+                                          <td><?php echo $una_incidencia->ticket; ?></td>
+                                          <td> <button class="btn btn-xs btn-danger editar">Editar</button> </td>
                                         </tr>
 
                                       <?php 
@@ -308,11 +310,11 @@
 
 /* estilos de tabla */
   .table-responsive th {
-      width: calc((100% - 17px) / 7);
+      width: calc((100% - 17px) / 8);
   }
 
   .table-responsive td {
-      width: calc(100% / 6);
+      width: calc(100% / 8);
   }
 
   .table-responsive thead {
@@ -367,6 +369,25 @@
   }
   .right {
     float:  right;
+  }
+  tr:hover .tr-tooltip{
+    position: fixed;
+    width: calc(1228px - 100%) !important;
+    width: calc(100vw - 1222px) !important;
+    top: 35vh !important;
+    z-index: 11111 !important;
+    color: #000 !important;
+    background: #fff !important;
+    opacity: 1 !important;
+    left: calc(100% - 1217px) !important;
+    left: 0 !important;
+    padding: 3px !important;
+    top: 40px;
+    margin: 2px;
+    font-size: 10px;
+    background: #76d93978 !important;
+    border-radius: 6px;
+    border: 2px solid #ccc;
   }
 </style>
 <script type="text/javascript">
@@ -439,6 +460,24 @@
         },
       });
       }
+    });
+    $("button.update-table").click(function(){
+      var dataString  = {
+        key : $(".table-responsive tbody tr:first-child").attr("incidencia-id")
+        };
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>update_table",
+        dataType: "html",
+        data:dataString,
+        cache   : false,
+        success: function(data){
+          $(data).insertBefore(".table-responsive tbody tr:first-child");
+          console.log(data);
+        } ,error: function(xhr, status, error) {
+          console.log(status);
+        },
+      });
     });
     /*$("button.nmarca").click(function(){
       if ($("#popup-form").length==0){
@@ -629,6 +668,7 @@
 
     $('.table-responsive .editar').click(function(){
       selectedincidencia=$(this).parent().parent().attr("incidencia-id");
+      keydispositivo=$(this).parent().parent().attr("dispositivo");
       console.log(selectedincidencia);
       if ($("#popup-form").length==0){
       $.ajax({
@@ -638,12 +678,12 @@
         cache   : false,
         success: function(data){
           $(data).insertBefore("#allcontent");
-              $("#dispositivo").val(selectedincidencia).trigger('change');
-              espaciox=$("[incidencia-id="+selectedincidencia+"] td:nth-child(3)").text();
+              $("#dispositivo").val(keydispositivo).trigger('change');
+              espaciox=$("[incidencia-id="+selectedincidencia+"] td:nth-child(4)").text();
               $("#espacio option:contains('"+(espaciox.substring(0,1)=="C"?"camana":"ocoña")+espaciox.substring(2,3)+"')").each(function(){$(this).parent().val($(this).val());});
-              $("#tipo_incidencia").each(function(){$(this).val($(this).find("option:contains('"+$("[incidencia-id="+selectedincidencia+"] td:nth-child(4)").val()+"')").val());});
-              $("#ticket").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(6)").text());
-              $("#popup-form-area").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(4)").text());
+              $("#tipo_incidencia").each(function(){$(this).val($(this).find("option:contains('"+$("[incidencia-id="+selectedincidencia+"] td:nth-child(5)").val()+"')").val());});
+              $("#ticket").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(7)").text());
+              $("#popup-form-area").val($("[incidencia-id="+selectedincidencia+"] td:nth-child(5)").text());
               // $('#espacio option:checked').val()
               // $('#posicion option:checked').text()
               // $('#tipo_incidencia option:checked').val()

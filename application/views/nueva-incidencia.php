@@ -91,7 +91,7 @@
   </div>
   <div class="col-md-6">
 
-  <label for="tipo_incidencia" class="col-md-4">Tipo incidencia</label>
+  <label for="tipo_incidencia" class="col-md-4">Motivo</label>
   <select id="tipo_incidencia" for="tipo_incidencia" class="col-md-8">
 
     <?php 

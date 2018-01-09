@@ -55,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['login'] = 'login/index';
 $route['editar'] = 'login/editar';
 $route['edit'] = 'login/edit';
+$route['update_table'] = 'login/update_table';
 $route['add_modelo'] = 'login/add_modelo';
 $route['nuevo_modelo'] = 'login/nuevo_modelo';
 $route['add_motivo'] = 'login/add_motivo';

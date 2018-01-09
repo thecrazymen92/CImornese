@@ -199,10 +199,17 @@ class Login extends CI_Controller {
 		$contents=array('opciones' => array("chartid"=>$chartid),'valores'=>$custom);
 		echo $this->load->view('popup-form-graficos',$contents,TRUE);
 		}
+	
 	public function lista_incidencias($tipo,$fecha_ini,$fecha_fin){
         $lista_incidencias=$this->incidencia_model->grafico_incidencias_fecha($tipo,$fecha_ini,$fecha_fin,"");
 		echo json_encode($lista_incidencias);
 		}
+	
+	public function update_table(){
+		$contents=array('valores' => $this->incidencia_model->incidencia_mayor($this->input->post('key')));
+		echo $this->load->view('table-files',$contents,TRUE);
+		}
+	
 	public function incidencias_area($fecha_ini,$fecha_fin,$areas){
         $lista_incidencias=$this->incidencia_model->grafico_incidencias_area($fecha_ini,$fecha_fin,str_replace("_", ",", $areas),"");
         echo json_encode($lista_incidencias);
