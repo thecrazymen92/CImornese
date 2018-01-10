@@ -370,7 +370,11 @@
   .right {
     float:  right;
   }
-  tr:hover .tr-tooltip{
+  .tr-tooltip {
+    display: none;
+  }
+  tr:hover .tr-tooltip {
+    display: inline-block;
     position: fixed;
     width: calc(1228px - 100%) !important;
     width: calc(100vw - 1222px) !important;
@@ -389,6 +393,7 @@
     border-radius: 6px;
     border: 2px solid #ccc;
   }
+
 </style>
 <script type="text/javascript">
     $('select[for="input1"]').change(function(){
