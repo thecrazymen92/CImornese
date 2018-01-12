@@ -10,4 +10,4 @@
        <a href="<?php echo base_url() ?>usuarios/cerrar_sesion"> Cerrar sesión </a>
     </p>
  </body>
-</html>
+</html>	
